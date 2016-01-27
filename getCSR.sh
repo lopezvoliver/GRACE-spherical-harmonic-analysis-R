@@ -1,6 +1,6 @@
 #! /bin/bash
 #ftp://podaac.jpl.nasa.gov/allData/grace/L2/CSR/RL05/
-cd ./RAW
+#cd ./RAW  
 HOST=podaac.jpl.nasa.gov
 USER=anonymous
 PASS=anonymous
