@@ -39,9 +39,9 @@ Using the program
 ./extractCSR.sh 						#Extracts the .gz files inside the CSR folder
 
 ./texttoncdf.R CSRcoef_RAW.nc ./CSR/ 		#Assembles a netCDF file containing the coefficients. 
-#Also creates a file GRACE_timevector.txt, which is useful later on (contains the time bounds for each time step). 
-#The first argument (name of the output netCDF file) can be named differently, but must be consistent with the following steps.
-#The second argument is the path to the downloaded coefficients (e.g. ./CSR/ <- notice the last slash must be present, otherwise the script will not work)
+This script also creates a file GRACE_timevector.txt, which is useful later on (contains the time bounds for each time step). 
+The first argument (name of the output netCDF file) can be named differently, but must be consistent with the following steps.
+The second argument is the path to the downloaded coefficients (e.g. ./CSR/ <- notice the last slash must be present, otherwise the script will not work)
 
 ./coefdelta.R CSRcoef_RAW.nc CSRcoef_delta.nc 		#Calculate the geoid changes (e.g. delta C, delta S), removes the mean for the whole period
 
@@ -58,7 +58,7 @@ Assuming we are in the folder ./workspace
 
 ../basin2netcdf.R Saq_aquifer_shape.dat mask_saq.nc	#Creates a rasterized mask of the polygon. The first argument is the shape file (.shp or text file). The second argument is the name of the output netCDF file
 
-#The following line performs the spherical harmonic analysis using the FORTRAN program "snake" 
+The following line performs the spherical harmonic analysis using the FORTRAN program "snake" 
 ../bin/snakeSHAS mask mask_saq.nc ../AvKernels/saq.nc ../AvKernels/saq_check.nc 60 
 OR
 ../bin/snakeSHA mask mask_saq.nc ../AvKernels/saq.nc  60 
