@@ -31,21 +31,27 @@ LDFLAGS = -L/usr/local/lib
 The script INSTALL.sh calls the Makefiles and moves the executables to ./bin, this is optional 
 
 #Using the program
+# 1. Downloading and processing GRACE coefficients
 
-1. The first thing to do is to download and process the GRACE coefficients from NASA (currently CSR Level 2 RL 05 product):
+The first thing to do is to download and process the GRACE coefficients from NASA (currently CSR Level 2 RL 05 product)
 
 ./getCSR.sh							#Creates folder ./CSR and downloads the coefficients (.gz files)
 
 ./extractCSR.sh 						#Extracts the .gz files inside the CSR folder
 
 ./texttoncdf.R CSRcoef_RAW.nc ./CSR/ 		#Assembles a netCDF file containing the coefficients. 
+
 This script also creates a file GRACE_timevector.txt, which is useful later on (contains the time bounds for each time step). 
+
 The first argument (name of the output netCDF file) can be named differently, but must be consistent with the following steps.
+
 The second argument is the path to the downloaded coefficients (e.g. ./CSR/ <- notice the last slash must be present, otherwise the script will not work)
 
 ./coefdelta.R CSRcoef_RAW.nc CSRcoef_delta.nc 		#Calculate the geoid changes (e.g. delta C, delta S), removes the mean for the whole period
 
-./runDS.R CSRcoef_delta.nc CSRcoef_DS.nc 			#Correlated-error filter (or de-striping filter). See: Swenson and Wahr (2006). This process takes a couple of minutes.
+./runDS.R CSRcoef_delta.nc CSRcoef_DS.nc 			#Correlated-error filter (or de-striping filter). See: Swenson and Wahr (2006). 
+
+This process takes a couple of minutes.
 
 ./C11.R C11.txt ./CSR/							#Downloads C10 and C11 coefficients to file C11.txt. See: Swenson, Chambers, and Wahr (2008)
 
@@ -53,7 +59,9 @@ The second argument is the path to the downloaded coefficients (e.g. ./CSR/ <- n
 
 ./multiplycoef.R CSRcoef_DS.nc CSR.DSG300km.SH.nc C20.txt C11.txt 300	#  Replace correct C10, C11, and S11 coefficients in netCDF file, convert geoid changes to mm equivalent water height, apply a Gaussian filter (e.g. 300km radius)
 
-2. The second part of the process is to convert the shape file (e.g. basin, aquifer, or region of interest) into spherical harmonic coefficients:
+# 2. Creating the averaging kernel
+
+The second part of the process is to convert the shape file (e.g. basin, aquifer, or region of interest) into spherical harmonic coefficients:
 Assuming we are in the folder ./workspace
 
 ../basin2netcdf.R Saq_aquifer_shape.dat mask_saq.nc	#Creates a rasterized mask of the polygon. The first argument is the shape file (.shp or text file). The second argument is the name of the output netCDF file
@@ -68,7 +76,7 @@ The third argument is the name of the output netCDF file containing the SH coeff
 The fourth argument in the first option (e.g. ../AvKernels/saq_check.nc) is the name of the output file containing the SH synthesis. This is useful to visualize the averaging kernel, but is not strictly necessary for the rest of the process. 
 The last argument is the maximum degree to perform the analysis (lmax). 
 
-3. Calculate the region-averaged TWSA time series:
+# 3. Calculating TWSA time series
 ./calcTWSAts.R ./workspace/Saq_aquifer_shape.dat CSR.DSG300km.SH.nc  ./AvKernels/saq.nc out.txt
 
 This last step requires the following arguments:
