@@ -1,13 +1,13 @@
-GRACE tools 
+#GRACE tools 
 
-Description
+#Description
 
 This set of tools covers a workflow for obtaining GRACE Terrestrial Water Storage Anomalies time series
 The idea is to minimize user input (i.e. only a basin/aquifer/region of interest shape file or text file containing the points for the polygon). 
 
 The tools helps the user download, filter and convert GRACE geoid coefficients into equivalent water height (mm).
 
-Acknowledgements / Credit
+#Acknowledgements / Credit
 
 The spherical harmonic analysis portion of the tools (i.e. transforming the shape file to spherical harmonic coefficients) was largely based on the original FORTRAN program dragon.F, available at 
 www.iamg.org/documents/oldftp/VOL32/v32-10-11.zip
@@ -15,12 +15,12 @@ www.iamg.org/documents/oldftp/VOL32/v32-10-11.zip
 The original dragon.F was written by Wang, H. et al. (2006) for the journal paper:
 Wang, H., P. Wu, and Z. Wang (2006), An approach for spherical harmonic analysis of non-smooth data, Computers & Geosciences, 32(10), 1654 ? 1668, doi: http://dx.doi.org/10.1016/j.cageo.2006.03.004.
 
-Requirements
+#Requirements
 - R (https://www.r-project.org/), along with the following packages:
 ncdf4, raster, rgdal, maptools, geosphere
 - netCDF library must be installed using Intel compilers
 
-Installation
+#Installation
 Most of the processing is done in R scripts, so no installation is needed
 The first line of the R scripts (#!/usr/.../Rscript) must be modified accordingly (path to Rscript)
 
@@ -30,7 +30,7 @@ CINC = -I/usr/local/include
 LDFLAGS = -L/usr/local/lib
 The script INSTALL.sh calls the Makefiles and moves the executables to ./bin, this is optional 
 
-Using the program
+#Using the program
 
 1. The first thing to do is to download and process the GRACE coefficients from NASA (currently CSR Level 2 RL 05 product):
 
@@ -79,7 +79,7 @@ This last step requires the following arguments:
 
 A scaling factor (see e.g. Long et al., 2015) can be supplied as an optional fifth argument.
 
-EXTRA
+# EXTRA
 
 The program ./bin/snakeVGRACE can be used to visualize the global TWS anomalies:
 ./bin/snakeVGRACE CSR.DSG300km.SH.nc CSR.DSG300km.nc 
@@ -89,7 +89,7 @@ It could also be used to visualize the effect of the de-striping filter, for exa
 ./bin/snakeVGRACE CSR.noDSG300km.SH.nc CSR.noDSG300km.nc		
 
 
-REFERENCES
+# REFERENCES
 
 Cheng, M., B. D. Tapley, and J. C. Ries (2013). Deceleration in the Earth's oblateness, J. Geophys. Res. Solid Earth, 118, 740-747, doi:10.1002/jgrb.50058.
 
