@@ -21,7 +21,7 @@ ncdf4, raster, rgdal, maptools, geosphere
 - netCDF library must be installed using Intel compilers
 
 #Installation
-Most of the processing is done in R scripts, so no installation is needed
+Most of the processing is done in R scripts, so no installation is needed for these scripts.
 The first line of the R scripts (#!/usr/.../Rscript) must be modified accordingly (path to Rscript)
 
 The FORTRAN program must be built using Intel compilers
