@@ -28,6 +28,12 @@ gracemid=as.Date(colMeans(t(cbind(GCSR1,GCSR2))),origin='1970/01/01')#GRACE midp
 
 day1=GCSR1
 day2=GCSR2
+out<-cbind(as.character(gracemid),as.character(day1))
+out<-cbind(out,as.character(day2))
+
+write.table(x=out,file='GRACE_timevector.txt',row.names=FALSE,col.names=FALSE)
+cat(sprintf('Saved GRACE dates information to GRACE_timevector.txt\n'))
+
 
 #File names to read
 fils=list.files(local_path,pattern='*GSM-2_*')

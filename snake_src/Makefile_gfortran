@@ -1,0 +1,45 @@
+# files to compile 
+LSRC = snake_common.F90 snake_data.F90 snake_shout.F90 snake_flmout.F90 snake_driver.F90 dragon.F90
+
+# executable that is being built
+PROG = snake
+
+# form the compiled object files
+OBJS = ${LSRC:.F90=.o}
+
+# compiler switches and flags
+FC = gfortran
+CINC = -I/Users/lopezom/Library/netcdf/4.4.3/include
+CFLAGS = -O0 #-Wconversion #-finit-local-zero#-fdefault-real-8#-ff2c -finit-local-zero 
+LDFLAGS = -L/Users/lopezom/Library/netcdf/4.4.3/lib
+LD = -lnetcdff
+
+
+#suffixes 
+.SUFFIXES:
+.SUFFIXES: .F90 .o
+#default rules for these suffixes ???
+.F90.o:
+	$(FC) $(CFLAGS) $(CINC) -c $<
+#	$(FC) $(CFLAGS) $(CINC) $(LDFLAGS) $(LD) $<
+
+# default target by convention is ``all''
+all : $(PROG)
+
+#build PROG (executable) by linking all objects
+#$(PROG) : $(OBJS)
+$(PROG) : snake_driver.o
+	$(FC) $(LDFLAGS) -o $@ $(OBJS) $(LD)
+
+#dependencies
+snake_driver.o: snake_driver.F90 snake_data.o snake_shout.o snake_flmout.o dragon.o snake_common.o
+snake_data.o: snake_data.F90 snake_common.o
+dragon.o: dragon.F90 snake_common.o
+snake_shout.o: snake_shout.F90 snake_common.o
+snake_flmout.o: snake_flmout.F90 snake_common.o
+snake_common.o: snake_common.F90
+
+# make clean option
+clean:
+	rm -f *.o *.mod snake
+
