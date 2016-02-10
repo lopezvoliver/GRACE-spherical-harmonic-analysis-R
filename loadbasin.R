@@ -9,7 +9,7 @@ extension=extension[length(extension)]
 if(extension=='shp'){
 #Assuming shape file
 cat(sprintf('Opening shape file %s\n',fname));
-out<-readShapeSpatial(dirGRDC)
+out<-readShapeSpatial(fname)
 }else{
 #Assuming two-column formatted text file
 cat(sprintf('Loading text file %s\n',fname));
