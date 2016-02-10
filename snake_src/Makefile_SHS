@@ -1,0 +1,43 @@
+# files to compile 
+LSRC = snake_common.F90 snake_data.F90 snake_shout.F90 snake_flmout.F90 snakeSHS.F90 dragon.F90
+
+# executable that is being built
+PROG = snakeSHS
+
+# form the compiled object files
+OBJS = ${LSRC:.F90=.o}
+
+# compiler switches and flags
+FC = ifort
+CINC = -I/opt/share/netcdf/v4.3.2.app/include 
+CFLAGS = -r8 -O2 -assume realloc-lhs 
+LDFLAGS = -L/opt/share/netcdf/v4.3.2.app/lib
+LD = -lnetcdff -lnetcdf
+
+#suffixes 
+.SUFFIXES:
+.SUFFIXES: .F90 .o
+#default rules for these suffixes ???
+.F90.o:
+	$(FC) $(CFLAGS) $(CINC) -c $<
+
+# default target by convention is ``all''
+all : $(PROG)
+
+#build PROG (executable) by linking all objects
+#$(PROG) : $(OBJS)
+$(PROG) : snakeSHS.o
+	$(FC) $(LDFLAGS) -o $@ $(OBJS) $(LD)
+
+#dependencies
+snakeSHA.o: snakeSHS.F90 snake_data.o snake_shout.o snake_flmout.o dragon.o snake_common.o
+snake_data.o: snake_data.F90 snake_common.o
+dragon.o: dragon.F90 snake_common.o
+snake_shout.o: snake_shout.F90 snake_common.o
+snake_flmout.o: snake_flmout.F90 snake_common.o
+snake_common.o: snake_common.F90
+
+# make clean option
+clean:
+	rm -f *.o *.mod snakeSHS
+
